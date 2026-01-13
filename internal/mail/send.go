@@ -11,13 +11,13 @@ import (
 
 // SendOptions configures sending a message
 type SendOptions struct {
-	To          []string
-	Cc          []string
-	Bcc         []string
-	Subject     string
-	Body        string
-	BodyType    string // "text" or "html"
-	SaveToSent  bool
+	To         []string
+	Cc         []string
+	Bcc        []string
+	Subject    string
+	Body       string
+	BodyType   string // "text" or "html"
+	SaveToSent bool
 }
 
 // SendMessage sends an email

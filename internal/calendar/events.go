@@ -12,20 +12,20 @@ import (
 
 // Event represents a calendar event
 type Event struct {
-	ID              string    `json:"id"`
-	Subject         string    `json:"subject"`
-	Start           time.Time `json:"start"`
-	End             time.Time `json:"end"`
-	Location        string    `json:"location,omitempty"`
-	IsAllDay        bool      `json:"is_all_day"`
-	Organizer       string    `json:"organizer,omitempty"`
-	Attendees       []string  `json:"attendees,omitempty"`
-	Body            string    `json:"body,omitempty"`
-	BodyContentType string    `json:"body_content_type,omitempty"`
-	WebLink         string    `json:"web_link,omitempty"`
-	ResponseStatus  string    `json:"response_status,omitempty"`
-	IsOnline        bool      `json:"is_online"`
-	OnlineMeetingURL string   `json:"online_meeting_url,omitempty"`
+	ID               string    `json:"id"`
+	Subject          string    `json:"subject"`
+	Start            time.Time `json:"start"`
+	End              time.Time `json:"end"`
+	Location         string    `json:"location,omitempty"`
+	IsAllDay         bool      `json:"is_all_day"`
+	Organizer        string    `json:"organizer,omitempty"`
+	Attendees        []string  `json:"attendees,omitempty"`
+	Body             string    `json:"body,omitempty"`
+	BodyContentType  string    `json:"body_content_type,omitempty"`
+	WebLink          string    `json:"web_link,omitempty"`
+	ResponseStatus   string    `json:"response_status,omitempty"`
+	IsOnline         bool      `json:"is_online"`
+	OnlineMeetingURL string    `json:"online_meeting_url,omitempty"`
 }
 
 // ListOptions configures event listing
@@ -99,14 +99,14 @@ func GetEvent(ctx context.Context, client *msgraph.GraphServiceClient, eventID s
 
 // CreateEventOptions configures event creation
 type CreateEventOptions struct {
-	Subject    string
-	Start      time.Time
-	End        time.Time
-	Location   string
-	Body       string
-	IsAllDay   bool
-	Attendees  []string
-	IsOnline   bool
+	Subject   string
+	Start     time.Time
+	End       time.Time
+	Location  string
+	Body      string
+	IsAllDay  bool
+	Attendees []string
+	IsOnline  bool
 }
 
 // CreateEvent creates a new calendar event

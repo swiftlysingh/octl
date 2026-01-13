@@ -6,6 +6,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	kiotaauth "github.com/microsoft/kiota-authentication-azure-go"
 	msgraph "github.com/microsoftgraph/msgraph-sdk-go"
+
 	"github.com/pp/octl/internal/auth"
 )
 

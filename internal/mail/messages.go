@@ -27,12 +27,12 @@ type Message struct {
 
 // ListOptions configures message listing
 type ListOptions struct {
-	Top       int32
-	Skip      int32
-	Filter    string
-	OrderBy   string
+	Top        int32
+	Skip       int32
+	Filter     string
+	OrderBy    string
 	UnreadOnly bool
-	FolderID  string
+	FolderID   string
 }
 
 // ListMessages retrieves messages from the user's mailbox
@@ -155,11 +155,11 @@ func SearchMessages(ctx context.Context, client *msgraph.GraphServiceClient, que
 // convertMessage converts a Graph API message to our Message type
 func convertMessage(msg models.Messageable) Message {
 	m := Message{
-		ID:         safeString(msg.GetId()),
-		Subject:    safeString(msg.GetSubject()),
-		IsRead:     safeBool(msg.GetIsRead()),
+		ID:             safeString(msg.GetId()),
+		Subject:        safeString(msg.GetSubject()),
+		IsRead:         safeBool(msg.GetIsRead()),
 		HasAttachments: safeBool(msg.GetHasAttachments()),
-		BodyPreview: safeString(msg.GetBodyPreview()),
+		BodyPreview:    safeString(msg.GetBodyPreview()),
 	}
 
 	if from := msg.GetFrom(); from != nil {

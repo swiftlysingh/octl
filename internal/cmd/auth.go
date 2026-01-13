@@ -5,9 +5,10 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/spf13/cobra"
+
 	"github.com/pp/octl/internal/auth"
 	"github.com/pp/octl/internal/config"
-	"github.com/spf13/cobra"
 )
 
 var (

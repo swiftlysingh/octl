@@ -10,6 +10,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+
 	"github.com/pp/octl/internal/config"
 )
 
@@ -99,9 +100,9 @@ func (m *Manager) LoadCredential() error {
 	}
 
 	cred, err := azidentity.NewDeviceCodeCredential(&azidentity.DeviceCodeCredentialOptions{
-		ClientID:             m.clientID,
-		TenantID:             "common",
-		AuthenticationRecord: *record,
+		ClientID:                       m.clientID,
+		TenantID:                       "common",
+		AuthenticationRecord:           *record,
 		DisableAutomaticAuthentication: true,
 	})
 	if err != nil {

@@ -65,12 +65,18 @@ func (f *Formatter) printPlain(data interface{}) error {
 	switch v := data.(type) {
 	case [][]string:
 		for _, row := range v {
-			fmt.Fprintln(f.writer, strings.Join(row, "\t"))
+			if _, err := fmt.Fprintln(f.writer, strings.Join(row, "\t")); err != nil {
+				return err
+			}
 		}
 	case []string:
-		fmt.Fprintln(f.writer, strings.Join(v, "\t"))
+		if _, err := fmt.Fprintln(f.writer, strings.Join(v, "\t")); err != nil {
+			return err
+		}
 	case string:
-		fmt.Fprintln(f.writer, v)
+		if _, err := fmt.Fprintln(f.writer, v); err != nil {
+			return err
+		}
 	default:
 		// For complex types, fall back to JSON
 		return f.printJSON(data)
@@ -85,9 +91,9 @@ func (f *Formatter) printTable(data interface{}) error {
 		return v.Render(f.writer)
 	default:
 		// For non-table data, just print as string
-		fmt.Fprintln(f.writer, data)
+		_, err := fmt.Fprintln(f.writer, data)
+		return err
 	}
-	return nil
 }
 
 // Table represents tabular data
@@ -115,18 +121,24 @@ func (t *Table) Render(w io.Writer) error {
 
 	// Print headers
 	if len(t.headers) > 0 {
-		fmt.Fprintln(tw, strings.Join(t.headers, "\t"))
+		if _, err := fmt.Fprintln(tw, strings.Join(t.headers, "\t")); err != nil {
+			return err
+		}
 		// Print separator
 		sep := make([]string, len(t.headers))
 		for i, h := range t.headers {
 			sep[i] = strings.Repeat("-", len(h))
 		}
-		fmt.Fprintln(tw, strings.Join(sep, "\t"))
+		if _, err := fmt.Fprintln(tw, strings.Join(sep, "\t")); err != nil {
+			return err
+		}
 	}
 
 	// Print rows
 	for _, row := range t.rows {
-		fmt.Fprintln(tw, strings.Join(row, "\t"))
+		if _, err := fmt.Fprintln(tw, strings.Join(row, "\t")); err != nil {
+			return err
+		}
 	}
 
 	return tw.Flush()

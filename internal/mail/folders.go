@@ -11,11 +11,11 @@ import (
 
 // Folder represents a mail folder
 type Folder struct {
-	ID               string `json:"id"`
-	DisplayName      string `json:"display_name"`
-	TotalItemCount   int32  `json:"total_item_count"`
-	UnreadItemCount  int32  `json:"unread_item_count"`
-	ParentFolderID   string `json:"parent_folder_id,omitempty"`
+	ID              string `json:"id"`
+	DisplayName     string `json:"display_name"`
+	TotalItemCount  int32  `json:"total_item_count"`
+	UnreadItemCount int32  `json:"unread_item_count"`
+	ParentFolderID  string `json:"parent_folder_id,omitempty"`
 }
 
 // ListFolders retrieves all mail folders

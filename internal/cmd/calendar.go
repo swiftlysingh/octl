@@ -6,10 +6,11 @@ import (
 	"strings"
 	"time"
 
+	"github.com/spf13/cobra"
+
 	"github.com/pp/octl/internal/calendar"
 	"github.com/pp/octl/internal/mail"
 	"github.com/pp/octl/internal/output"
-	"github.com/spf13/cobra"
 )
 
 var (
@@ -123,8 +124,8 @@ func init() {
 	calendarCreateCmd.Flags().BoolVar(&calEventAllDay, "all-day", false, "Create an all-day event")
 	calendarCreateCmd.Flags().StringSliceVar(&calEventAttendees, "attendees", nil, "Attendee email addresses")
 	calendarCreateCmd.Flags().BoolVar(&calEventOnline, "online", false, "Create as online meeting")
-	calendarCreateCmd.MarkFlagRequired("subject")
-	calendarCreateCmd.MarkFlagRequired("start")
+	_ = calendarCreateCmd.MarkFlagRequired("subject")
+	_ = calendarCreateCmd.MarkFlagRequired("start")
 
 	// calendar respond flags
 	calendarRespondCmd.Flags().StringVar(&calResponseComment, "comment", "", "Optional comment with response")

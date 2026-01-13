@@ -6,12 +6,13 @@ import (
 	"strings"
 	"time"
 
+	"github.com/spf13/cobra"
+
 	"github.com/pp/octl/internal/auth"
 	"github.com/pp/octl/internal/config"
 	"github.com/pp/octl/internal/graph"
 	"github.com/pp/octl/internal/mail"
 	"github.com/pp/octl/internal/output"
-	"github.com/spf13/cobra"
 )
 
 var (
@@ -117,9 +118,9 @@ func init() {
 	mailSendCmd.Flags().StringVar(&mailSubject, "subject", "", "Email subject")
 	mailSendCmd.Flags().StringVar(&mailBody, "body", "", "Email body")
 	mailSendCmd.Flags().BoolVar(&mailHTML, "html", false, "Send body as HTML")
-	mailSendCmd.MarkFlagRequired("to")
-	mailSendCmd.MarkFlagRequired("subject")
-	mailSendCmd.MarkFlagRequired("body")
+	_ = mailSendCmd.MarkFlagRequired("to")
+	_ = mailSendCmd.MarkFlagRequired("subject")
+	_ = mailSendCmd.MarkFlagRequired("body")
 
 	// mail draft flags
 	mailDraftCmd.Flags().StringSliceVar(&mailTo, "to", nil, "Recipient email address(es)")
