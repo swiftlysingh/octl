@@ -1,0 +1,78 @@
+version: 2
+
+project_name: octl
+
+before:
+  hooks:
+    - go mod tidy
+    - go mod verify
+
+builds:
+  - id: octl
+    main: ./cmd/octl
+    binary: octl
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.commit={{.Commit}}
+      - -X main.date={{.Date}}
+
+archives:
+  - id: default
+    format: tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - LICENSE*
+      - README*
+
+checksum:
+  name_template: "checksums.txt"
+
+snapshot:
+  version_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+      - "^ci:"
+      - Merge pull request
+      - Merge branch
+
+release:
+  github:
+    owner: swiftlysingh
+    name: octl
+  draft: false
+  prerelease: auto
+  name_template: "{{.ProjectName}} v{{.Version}}"
+
+brews:
+  - name: octl
+    repository:
+      owner: swiftlysingh
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
+    directory: Formula
+    homepage: "https://github.com/swiftlysingh/octl"
+    description: "CLI tool for Microsoft Outlook"
+    license: "MIT"
+    install: |
+      bin.install "octl"
+    test: |
+      system "#{bin}/octl", "--help"
