@@ -204,7 +204,7 @@ Tokens are stored securely in the OS keychain:
 Use octl with [Claude Code](https://claude.ai/code) for AI-assisted email and calendar management:
 
 ```bash
-claude skill add https://raw.githubusercontent.com/swiftlysingh/outlook-skill/main/outlook.md
+claude skill add https://raw.githubusercontent.com/swiftlysingh/outlook-skill/main/SKILL.md
 ```
 
 Then ask Claude things like:
