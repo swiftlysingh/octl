@@ -10,6 +10,7 @@ A command-line interface for Microsoft Outlook. Access your email and calendar f
 - **Cross-Platform**: Works on macOS, Linux, and Windows
 - **Secure Authentication**: OAuth 2.0 device code flow with OS keychain storage
 - **Multi-Account Support**: Works with both personal (outlook.com) and work/school (Microsoft 365) accounts
+- **Claude Code Integration**: Use with AI assistant via [outlook-skill](https://github.com/swiftlysingh/outlook-skill)
 
 ## Installation
 
@@ -197,6 +198,21 @@ Tokens are stored securely in the OS keychain:
 ### Environment Variables
 
 - `OCTL_CLIENT_ID` - Azure App Client ID (overrides config file)
+
+## Claude Code Skill
+
+Use octl with [Claude Code](https://claude.ai/code) for AI-assisted email and calendar management:
+
+```bash
+claude skill add https://raw.githubusercontent.com/swiftlysingh/outlook-skill/main/outlook.md
+```
+
+Then ask Claude things like:
+- "Check my unread emails"
+- "What meetings do I have today?"
+- "Send an email to john@example.com about the project update"
+
+See [outlook-skill](https://github.com/swiftlysingh/outlook-skill) for more details.
 
 ## Development
 
