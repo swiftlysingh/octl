@@ -7,11 +7,27 @@ A command-line interface for Microsoft Outlook. Access your email and calendar f
 - **Email Management**: List, read, search, send, and organize emails
 - **Calendar**: View, create, and respond to calendar events
 - **Multiple Output Formats**: Table (default), JSON, plain text for scripting
-- **Cross-Platform**: Works on macOS and Linux
+- **Cross-Platform**: Works on macOS, Linux, and Windows
 - **Secure Authentication**: OAuth 2.0 device code flow with OS keychain storage
 - **Multi-Account Support**: Works with both personal (outlook.com) and work/school (Microsoft 365) accounts
 
 ## Installation
+
+### Homebrew (macOS and Linux)
+
+```bash
+brew tap swiftlysingh/tap
+brew install octl
+```
+
+### Download Binary
+
+Download the latest release from the [Releases page](https://github.com/swiftlysingh/octl/releases).
+
+Available for:
+- macOS (Intel and Apple Silicon)
+- Linux (amd64 and arm64)
+- Windows (amd64 and arm64)
 
 ### From Source
 
@@ -29,7 +45,6 @@ make install
 
 ### Requirements
 
-- Go 1.21 or later
 - Azure App Registration (see Setup below)
 
 ## Setup
