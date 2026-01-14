@@ -4,50 +4,45 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to (re)release (e.g. v0.1.0)"
+        required: true
+        type: string
 
 permissions:
   contents: write
 
 jobs:
   release:
-    name: Release
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Set up Go
+      - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.24"
+          go-version-file: go.mod
+          cache: true
 
       - name: Run tests
         run: go test -v ./...
 
-      - name: Get latest tag
-        id: get_tag
+      - name: Calculate next version
+        id: next_version
+        if: ${{ github.event_name == 'push' }}
         run: |
           git fetch --tags
           LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
-          echo "latest_tag=$LATEST_TAG" >> $GITHUB_OUTPUT
-          echo "Latest tag: $LATEST_TAG"
-
-      - name: Calculate next version
-        id: next_version
-        run: |
-          LATEST_TAG=${{ steps.get_tag.outputs.latest_tag }}
-          # Remove 'v' prefix
           VERSION=${LATEST_TAG#v}
-
-          # Split into major, minor, patch
           IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
 
-          # Get commit messages since last tag
           COMMITS=$(git log ${LATEST_TAG}..HEAD --pretty=format:"%s" 2>/dev/null || git log --pretty=format:"%s")
 
-          # Determine version bump based on commit messages
           if echo "$COMMITS" | grep -qiE "BREAKING CHANGE|\[major\]"; then
             MAJOR=$((MAJOR + 1))
             MINOR=0
@@ -64,18 +59,26 @@ jobs:
           echo "New version: $NEW_VERSION"
 
       - name: Create and push tag
+        if: ${{ github.event_name == 'push' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git tag -a ${{ steps.next_version.outputs.new_version }} -m "Release ${{ steps.next_version.outputs.new_version }}"
           git push origin ${{ steps.next_version.outputs.new_version }}
 
-      - name: Run GoReleaser
+      - name: Stash GoReleaser config
+        run: cp .goreleaser.yaml /tmp/.goreleaser.yaml
+
+      - name: Checkout release tag
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: git checkout ${{ inputs.tag }}
+
+      - name: GoReleaser
         uses: goreleaser/goreleaser-action@v6
         with:
           distribution: goreleaser
-          version: "~> v2"
-          args: release --clean
+          version: latest
+          args: release --clean --config /tmp/.goreleaser.yaml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
